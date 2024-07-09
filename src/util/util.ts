@@ -1,0 +1,1 @@
+export const hyphenate = (str: string) => str.replace(/[\W\s]/g, '-');

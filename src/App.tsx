@@ -7,7 +7,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { AllRoutes } from "./Routes";
-
+import './i18n';
 export const App = () => {
   return (
     <ThemeProvider theme={theme}>
