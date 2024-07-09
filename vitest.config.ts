@@ -8,6 +8,18 @@ export const options = {
     globals: true,
     environment: "jsdom",
     setupFiles: ["./vitest-setup.ts"],
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/cypress/**',
+      '**/.{idea,git,cache,output,temp}/**',
+      './src/config/**',
+      '**/*.cy.*'
+    ],
+    coverage: {
+      include: ['src'],
+      exclude: ['**/*.cy.*']
+    }
   },
   resolve: {
     alias: {
