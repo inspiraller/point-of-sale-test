@@ -24,8 +24,8 @@ export const BasicSelect = ({
   selectOptions,
   handleSelect,
   value,
-}: Props) => (
-  <Box sx={{ minWidth: styleProps.minWidth }}>
+}: Props) => {
+  return  <Box sx={{ minWidth: styleProps.minWidth }}>
     <FormControl fullWidth>
       <InputLabel>{label}</InputLabel>
       <Select
@@ -40,4 +40,4 @@ export const BasicSelect = ({
       </Select>
     </FormControl>
   </Box>
-);
+}

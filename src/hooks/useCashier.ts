@@ -9,7 +9,7 @@ export const useCashier = () => {
   return {
     updateCashier: (prop: string) => {
       localStorage.setItem("cashier", prop);
-      setCashier(cashier);
+      setCashier(prop);
     },
     value: cashier
   };
