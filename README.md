@@ -1,0 +1,1 @@
+# Example vite, react, eslint, typescript, cypress, coverage
