@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
+    "baseUrl": ".",
     "composite": true,
     "target": "ES2020",
     "useDefineForClassFields": true,

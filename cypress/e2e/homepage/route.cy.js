@@ -1,11 +1,11 @@
 /// <reference types="cypress" />
 
-describe('example to-do app', () => {
+describe('Route - homepage', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000')
   })
 
-  it('displays a title', () => {
+  it('displays the title', () => {
     cy.contains('Home').should('exist');
   })
 

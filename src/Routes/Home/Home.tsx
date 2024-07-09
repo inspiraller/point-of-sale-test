@@ -1,5 +1,5 @@
 
-import styles from "./App.module.css";
+import styles from "./Home.module.css";
 
 export default function Home() {
   return (
