@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+import enGb from '@/i18n/en-GB/translation.json';
 
 describe('Route - homepage', () => {
   beforeEach(() => {
@@ -6,7 +7,7 @@ describe('Route - homepage', () => {
   })
 
   it('displays the title', () => {
-    cy.contains('Home').should('exist');
+    cy.contains(enGb['SelectCashier.title']).should('exist');
   })
 
 })

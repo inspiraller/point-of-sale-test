@@ -7,9 +7,11 @@ import { useTranslation } from "react-i18next";
 import { useCashier } from "@/hooks/useCashier";
 import { hyphenate } from "@/util/util";
 import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { updateCashier, value } = useCashier();
 
   const TEXT_SelectCashier = t("SelectCashier.title");
@@ -43,6 +45,7 @@ export default function Home() {
   const handleSelect: Props["handleSelect"] = (evt) => {
     const value = evt.target.value;
     updateCashier(value);
+    navigate('/sales-dashboard');
   };
 
   return (
