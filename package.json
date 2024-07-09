@@ -10,7 +10,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test:ci-e2e-server": "npm run dev && vite --mode test http://localhost:3000 'cypress run --headless'",
-    "dev-with-instrumentation": "npm run test:ci-e2e-server && npx nyc report --reporter=text-summary",
+    "dev-with-instrumentation": "npm run test:ci-e2e-server",
     "test:cypress": "cypress run && npx nyc report --reporter=text-summary"
   },
   "dependencies": {
