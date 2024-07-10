@@ -2,5 +2,15 @@
   "SelectCashier.title": "Select Cashier",
   "SelectCashier.name.1": "Cashier 1",
   "SelectCashier.name.2": "Cashier 2",
-  "SelectCashier.name.3": "Cashier 3"
+  "SelectCashier.name.3": "Cashier 3",
+  "SalesDashboard.title": "Casier Sales Statistics",
+  "SalesDashboard.totalSales": "Total Sales",
+  "SalesDashboard.switchCashier": "Switch Cashier",
+  "SalesDashboard.addSale": "Add Sale",
+  "Checkout.back": "Back",
+  "Checkout.title": "Sale",
+  "Checkout.table.headings.item": "name",
+  "Checkout.table.headings.price": "price",
+  "Checkout.table.headings.quantity": "quantity",
+  "Checkout.table.headings.total": "total"
 }

@@ -19,6 +19,7 @@
     "@emotion/styled": "^11.11.5",
     "@fontsource/roboto": "^5.0.13",
     "@mui/material": "^5.16.0",
+    "@mui/x-charts": "^7.9.0",
     "cypress": "^13.13.0",
     "i18next": "^23.11.5",
     "react": "^18.3.1",

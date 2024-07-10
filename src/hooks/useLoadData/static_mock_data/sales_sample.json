@@ -1,0 +1,22 @@
+[
+  {
+    "currentCashierId": 1,
+    "saleAmount": 100.00
+  },
+  {
+    "currentCashierId": 1,
+    "saleAmount": 200.00
+  },
+  {
+    "currentCashierId": 2,
+    "saleAmount": 500.00
+  },
+  {
+    "currentCashierId": 1,
+    "saleAmount": 150.00
+  },
+  {
+    "currentCashierId": 3,
+    "saleAmount": 300.00
+  }
+]

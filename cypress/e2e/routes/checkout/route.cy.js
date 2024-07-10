@@ -6,7 +6,7 @@ describe('Route - checkout', () => {
   })
 
   it('displays the title', () => {
-    cy.contains('Checkout').should('exist');
+    cy.contains('Sale').should('exist');
   })
 
 })

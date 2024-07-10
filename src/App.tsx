@@ -7,11 +7,25 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { AllRoutes } from "./Routes";
-import './i18n';
+import "./i18n";
+import { Box } from "@mui/material";
+
+import { ProviderLoadData } from "./contexts/ProviderLoadData";
+
 export const App = () => {
+
   return (
-    <ThemeProvider theme={theme}>
-      <AllRoutes />
-    </ThemeProvider>
+    <ProviderLoadData>
+      <ThemeProvider theme={theme}>
+        <Box
+          component={"section"}
+          sx={{
+            padding: "20px",
+          }}
+        >
+          <AllRoutes />
+        </Box>
+      </ThemeProvider>
+    </ProviderLoadData>
   );
 };
