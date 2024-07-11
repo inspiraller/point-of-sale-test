@@ -7,5 +7,5 @@ interface Props {
   style?: CSSProperties;
 }
 export const CardSmall = ({ children, style }: Props) => {
-  return <Card sx={{ padding: "4px 10px", ...style }}>{children}</Card>;
+  return <Card sx={{ padding: "4px 10px", width: '40%', ...style }}>{children}</Card>;
 };

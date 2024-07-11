@@ -1,8 +1,5 @@
 {
   "SelectCashier.title": "Select Cashier",
-  "SelectCashier.name.1": "Cashier 1",
-  "SelectCashier.name.2": "Cashier 2",
-  "SelectCashier.name.3": "Cashier 3",
   "SalesDashboard.title": "Casier Sales Statistics",
   "SalesDashboard.totalSales": "Total Sales",
   "SalesDashboard.switchCashier": "Switch Cashier",

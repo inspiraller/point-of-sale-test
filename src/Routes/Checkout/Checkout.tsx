@@ -60,6 +60,7 @@ export default function Checkout() {
 
   const navigate = useNavigate();
 
+  const [disabled, setDisabled] = useState(true);
   useEffect(() => {
     if (defaultRows.length) {
       setRows(defaultRows.slice());
@@ -69,9 +70,16 @@ export default function Checkout() {
   const handleQtyChange:
     | ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined = (evt) => {
+    
     const target = evt.target;
     const sku = Number(target.getAttribute("datasku"));
     const qtyUpdate = Number(target.value) || 0;
+
+    if (qtyUpdate) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
     setRows((prev) => {
       return updateRowTotal({ prev, sku, qtyUpdate });
     });
@@ -140,6 +148,7 @@ export default function Checkout() {
         <Button
           type="button"
           variant="contained"
+          disabled={disabled}
           sx={{
             marginTop: "20px",
             marginLeft: "auto",

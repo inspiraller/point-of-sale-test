@@ -1,4 +1,6 @@
 /// <reference types="cypress" />
+import CashierJson from '@/hooks/useLoadData/static_mock_data/cashier_sample.json';
+
 import enGb from '@/i18n/en-GB/translation.json';
 
 describe('Route - homepage', () => {
@@ -7,7 +9,9 @@ describe('Route - homepage', () => {
   })
 
   it('displays the title', () => {
-    cy.contains(enGb['SelectCashier.title']).should('exist');
+    cy.visit('http://localhost:3000').screenshot();
+    cy.contains('Select Cashier').should('exist');
+    // cy.contains(CashierJson[0].name).should('exist');
   })
 
 })

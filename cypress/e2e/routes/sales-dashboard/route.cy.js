@@ -6,7 +6,7 @@ describe('Route - Sales Dashboard', () => {
   })
 
   it('displays the title', () => {
-    cy.contains('Sales Dashboard').should('exist');
+    cy.contains('Casier Sales Statistics').should('exist');
   })
 
 })
