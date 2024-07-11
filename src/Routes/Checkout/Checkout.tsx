@@ -29,22 +29,16 @@ const createResetRow = (products: PropsProducts) =>
   }, [] as PropsSalesRow[]);
 
 export default function Checkout() {
+  const navigate = useNavigate();
   const { t } = useTranslation();
-
   const TEXT_checkout_title = t("Checkout.title");
-
   const { products, updateSales } = useProvideLoadData();
-
   const defaultRows = useMemo(() => createResetRow(products), [products]);
-
   const [rows, setRows] = useState<PropsSalesRow[]>([]); // for rendering table rows - dont' update, to prevent rerendering during input changing.
   const [rowTotals, setRowTotals] = useState<PropsSalesRow[]>([]); // duplicate of rows, but can update total and qty without affecting rendered input
-
   const { value: currentCashierId } = useCurrentCashier();
-
-  const navigate = useNavigate();
-
   const [enabledSubmit, setEnabledSubmit] = useState(false);
+
   useEffect(() => {
     if (defaultRows.length) {
       setRows(defaultRows.slice());
@@ -52,11 +46,15 @@ export default function Checkout() {
     }
   }, [defaultRows]);
 
+  useEffect(() => {
+    setEnabledSubmit(!!rowTotals.find((item) => item.total !== 0));
+  }, [rowTotals]);
+
   const handleQtyUpdate = useCallback<PropHandleQtyUpdate>(
     ({ qtyUpdate, sku, total }) => {
       setRowTotals((prev) => {
         const indSku = prev.findIndex((item) => item.sku === sku);
-        const rowToChange = {...prev[indSku]};
+        const rowToChange = { ...prev[indSku] };
         rowToChange.qty = qtyUpdate;
         rowToChange.total = total;
         const prevUpdate = prev.slice();
@@ -66,14 +64,14 @@ export default function Checkout() {
     },
     []
   );
-
-  useEffect(() => {
-    setEnabledSubmit(!!rowTotals.find((item) => item.total !== 0));
-  }, [rowTotals]);
-
-  const cost = cropDecimal(rowTotals.reduce((acc, cur) => acc + cur.total, 0));
-  //Note: javascript .toFixed gives incorrect decimal value. Taking it to 3, then slicing the last number is more accurate
-  const items = rowTotals.reduce((acc, cur) => acc + cur.qty, 0);
+  const cost = useMemo(
+    () => cropDecimal(rowTotals.reduce((acc, cur) => acc + cur.total, 0)),
+    [rowTotals]
+  );
+  const qtyTotal = useMemo(
+    () => rowTotals.reduce((acc, cur) => acc + cur.qty, 0),
+    [rowTotals]
+  );
 
   const handleSubmit = () => {
     updateSales({ id: Number(currentCashierId), amount: Number(cost) });
@@ -82,6 +80,8 @@ export default function Checkout() {
     });
     navigate("/sales-dashboard");
   };
+
+
   return (
     <FormControl>
       <Box
@@ -118,7 +118,7 @@ export default function Checkout() {
             marginLeft: "auto",
           }}
         >
-          <CardSaleItems items={items} />
+          <CardSaleItems items={qtyTotal} />
           <CardCost cost={cost} />
         </Box>
       </Box>

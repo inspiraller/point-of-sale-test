@@ -6,7 +6,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useTranslation } from "react-i18next";
-import {  PropHandleQtyUpdate, PropsSalesRow } from "@/@types";
+import { PropHandleQtyUpdate, PropsSalesRow } from "@/@types";
 import { CheckoutRow } from "./CheckoutRow";
 
 interface Props {
@@ -38,7 +38,7 @@ export const CheckoutTable = ({ rows, handleQtyUpdate }: Props) => {
             <CheckoutRow
               key={`row-${row.sku}-${row.qty}`}
               row={row}
-             handleQtyUpdate={handleQtyUpdate}
+              handleQtyUpdate={handleQtyUpdate}
             />
           ))}
         </TableBody>
