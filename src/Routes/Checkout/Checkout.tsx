@@ -1,13 +1,12 @@
 import { useTranslation } from "react-i18next";
-
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Box, Button, FormControl, Typography } from "@mui/material";
 import { ButtonBackToDashboard } from "@/component/Buttons/ButtonBackToDashboard";
 import { CardSaleItems } from "@/component/Cards/CardSaleItems";
 import { CardCost } from "@/component/Cards/CardCost";
 import { CheckoutTable } from "@/component/CheckoutTable/CheckoutTable";
-import { PropsProducts, PropsSalesRow } from "@/@types";
+import { PropHandleQtyUpdate, PropsProducts, PropsSalesRow } from "@/@types";
 import { useProvideLoadData } from "@/contexts/ProviderLoadData";
-import { ChangeEventHandler, useEffect, useMemo, useState } from "react";
 import { cropDecimal } from "@/util/util";
 import { useCurrentCashier } from "@/hooks/useCurrentCashier";
 import { useNavigate } from "react-router-dom";
@@ -29,22 +28,6 @@ const createResetRow = (products: PropsProducts) =>
     return acc;
   }, [] as PropsSalesRow[]);
 
-interface PropsUpdateRowTotal {
-  prev: PropsSalesRow[];
-  sku: number;
-  qtyUpdate: number;
-}
-
-const updateRowTotal = ({ prev, sku, qtyUpdate }: PropsUpdateRowTotal) => {
-  const indUpdate = prev.findIndex((item) => item.sku === sku);
-  const rowsToChange = prev.slice();
-  const itemToChange = { ...rowsToChange.at(indUpdate) } as PropsSalesRow;
-  itemToChange.total = qtyUpdate * itemToChange?.price;
-  itemToChange.qty = qtyUpdate;
-  rowsToChange[indUpdate] = itemToChange;
-  return rowsToChange;
-};
-
 export default function Checkout() {
   const { t } = useTranslation();
 
@@ -54,40 +37,44 @@ export default function Checkout() {
 
   const defaultRows = useMemo(() => createResetRow(products), [products]);
 
-  const [rows, setRows] = useState<PropsSalesRow[]>([]);
+  const [rows, setRows] = useState<PropsSalesRow[]>([]); // for rendering table rows - dont' update, to prevent rerendering during input changing.
+  const [rowTotals, setRowTotals] = useState<PropsSalesRow[]>([]); // duplicate of rows, but can update total and qty without affecting rendered input
 
   const { value: currentCashierId } = useCurrentCashier();
 
   const navigate = useNavigate();
 
-  const [disabled, setDisabled] = useState(true);
+  const [enabledSubmit, setEnabledSubmit] = useState(false);
   useEffect(() => {
     if (defaultRows.length) {
       setRows(defaultRows.slice());
+      setRowTotals(defaultRows.slice());
     }
   }, [defaultRows]);
 
-  const handleQtyChange:
-    | ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-    | undefined = (evt) => {
+  const handleQtyUpdate = useCallback<PropHandleQtyUpdate>(
+    ({ qtyUpdate, sku, total }) => {
+      setRowTotals((prev) => {
+        const allRows = prev.slice();
+        const rowToChange = allRows.find(
+          (item) => item.sku === sku
+        ) as PropsSalesRow;
+        rowToChange.qty = qtyUpdate;
+        rowToChange.total = total;
+        return allRows;
+      });
+    },
+    []
+  );
+
+  useEffect(() => {
+    setEnabledSubmit(!!rowTotals.find(item => item.total !== 0));
     
-    const target = evt.target;
-    const sku = Number(target.getAttribute("datasku"));
-    const qtyUpdate = Number(target.value) || 0;
+  }, [rowTotals]);
 
-    if (qtyUpdate) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
-    setRows((prev) => {
-      return updateRowTotal({ prev, sku, qtyUpdate });
-    });
-  };
-
-  const cost = cropDecimal(rows.reduce((acc, cur) => acc + cur.total, 0));
+  const cost = cropDecimal(rowTotals.reduce((acc, cur) => acc + cur.total, 0));
   //Note: javascript .toFixed gives incorrect decimal value. Taking it to 3, then slicing the last number is more accurate
-  const items = rows.reduce((acc, cur) => acc + cur.qty, 0);
+  const items = rowTotals.reduce((acc, cur) => acc + cur.qty, 0);
 
   const handleSubmit = () => {
     updateSales({ id: Number(currentCashierId), amount: Number(cost) });
@@ -137,7 +124,7 @@ export default function Checkout() {
         </Box>
       </Box>
 
-      <CheckoutTable rows={rows} handleQtyChange={handleQtyChange} />
+      <CheckoutTable rows={rows} handleQtyUpdate={handleQtyUpdate} />
 
       <Box
         component={"section"}
@@ -148,7 +135,7 @@ export default function Checkout() {
         <Button
           type="button"
           variant="contained"
-          disabled={disabled}
+          disabled={!enabledSubmit}
           sx={{
             marginTop: "20px",
             marginLeft: "auto",
