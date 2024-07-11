@@ -55,21 +55,20 @@ export default function Checkout() {
   const handleQtyUpdate = useCallback<PropHandleQtyUpdate>(
     ({ qtyUpdate, sku, total }) => {
       setRowTotals((prev) => {
-        const allRows = prev.slice();
-        const rowToChange = allRows.find(
-          (item) => item.sku === sku
-        ) as PropsSalesRow;
+        const indSku = prev.findIndex((item) => item.sku === sku);
+        const rowToChange = {...prev[indSku]};
         rowToChange.qty = qtyUpdate;
         rowToChange.total = total;
-        return allRows;
+        const prevUpdate = prev.slice();
+        prevUpdate[indSku] = rowToChange;
+        return prevUpdate;
       });
     },
     []
   );
 
   useEffect(() => {
-    setEnabledSubmit(!!rowTotals.find(item => item.total !== 0));
-    
+    setEnabledSubmit(!!rowTotals.find((item) => item.total !== 0));
   }, [rowTotals]);
 
   const cost = cropDecimal(rowTotals.reduce((acc, cur) => acc + cur.total, 0));

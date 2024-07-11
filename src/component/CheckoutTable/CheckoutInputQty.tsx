@@ -8,7 +8,6 @@ interface Props {
 }
 
 export const CheckoutInputQty = ({ sku, handleQtyChange }: Props) => {
-  console.log('checkinput change', {sku, handleQtyChange})
   return (
     <TextField
       variant="outlined"
