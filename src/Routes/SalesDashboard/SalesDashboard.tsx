@@ -23,6 +23,8 @@ export default function SelectDashboard() {
   const sales = JSON.parse(localStorage.getItem("sales") as '');
   const cashierName = cashiers.find(item => String(item.id) === currentCashier)?.name;
 
+  console.log('cashierName=', cashierName);
+
   return (
     <section>
       <Box

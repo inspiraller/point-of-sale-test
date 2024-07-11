@@ -2,9 +2,10 @@ import { PropsSales } from "@/@types";
 import { useProvideLoadData } from "@/contexts/ProviderLoadData";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { useTranslation } from "react-i18next";
+import { Loading } from "../Loading/Loading";
 
 const tallySales = (sales: PropsSales) => {
-  return sales.reduce((acc, cur) => {
+  return sales?.reduce((acc, cur) => {
     const ind = cur.currentCashierId - 1;
     if (!acc[ind]) {
       acc[ind] = 0;
@@ -25,7 +26,8 @@ export const BarchartCashiers = ({sales}: Props) => {
 
   const pData = tallySales(sales); // [1,2,4];
 
-  return (
+  console.log('pData=', {pData, sales});
+  return pData ? (
     <BarChart
       width={500}
       height={300}
@@ -44,5 +46,5 @@ export const BarchartCashiers = ({sales}: Props) => {
         },
       ]}
     />
-  );
+  ) : <Loading />;
 };

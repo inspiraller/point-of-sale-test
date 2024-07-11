@@ -6,6 +6,7 @@ describe('Route - Sales Dashboard', () => {
   })
 
   it('displays the title', () => {
+    cy.screenshot();
     cy.contains('Casier Sales Statistics').should('exist');
   })
 
